@@ -4,6 +4,7 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> |
       <router-link to="/places">Places Index</router-link> |
+      <router-link to="/account">Account</router-link> |
       <router-link v-if="!isLoggedIn()" to="/login">Log In</router-link>
       <router-link v-if="isLoggedIn()" to="/logout">Log Out</router-link>
     </div>
@@ -43,9 +44,9 @@ export default {
     isLoggedIn: function () {
       return localStorage.getItem("jwt");
     },
-    // getUserId: function() {
-    //   return localStorage.getItem("user_id");
-    // },
+    getUserId: function () {
+      return localStorage.getItem("user_id");
+    },
   },
 };
 </script>
