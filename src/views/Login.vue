@@ -18,6 +18,8 @@
       <input type="submit" class="btn btn-primary" value="Submit">
     </form>
 
+    <router-link to="/createaccount">Create an account</router-link>
+
   </div>
 </template>
 
@@ -48,6 +50,7 @@ export default {
           axios.defaults.headers.common["Authorization"] =
             "Bearer " + response.data.jwt;
           localStorage.setItem("jwt", response.data.jwt);
+          localStorage.setItem("user_id", response.data.user_id);
           console.log("Logged in successfully");
           this.$router.push("/");
         })

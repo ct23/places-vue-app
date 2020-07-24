@@ -36,7 +36,7 @@
 
 <script>
 export default {
-  data: function () {},
+  // data: function () {},
   methods: {
     // Returns true or false depending on jwt in localstorage
     isLoggedIn: function () {

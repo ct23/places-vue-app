@@ -9,12 +9,12 @@
 
 <script>
 export default {
-  data: function() {
+  data: function () {
     return {
-      message: "Welcome to Vue.js!"
+      message: "Welcome to Vue.js!",
     };
   },
-  created: function() {},
-  methods: {}
+  created: function () {},
+  methods: {},
 };
 </script>
