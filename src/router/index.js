@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
 import Places from '../views/PlacesIndex.vue';
+import Place from '../views/PlacesShow.vue';
 
 Vue.use(VueRouter);
 
@@ -38,6 +39,11 @@ const routes = [
     path: '/places',
     name: 'Places',
     component: Places
+  },
+  {
+    path: '/places/:id',
+    name: 'Place',
+    component: Place
   }
 ];
 
