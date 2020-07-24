@@ -28,34 +28,34 @@
 import axios from "axios";
 
 export default {
-  data: function() {
+  data: function () {
     return {
       email: "",
       password: "",
-      errors: []
+      errors: [],
     };
   },
-  created: function() {},
+  created: function () {},
   methods: {
-    submit: function() {
+    submit: function () {
       var params = {
         email: this.email,
-        password: this.password
+        password: this.password,
       };
       axios
         .post("/api/sessions", params)
-        .then(response => {
+        .then((response) => {
           axios.defaults.headers.common["Authorization"] =
             "Bearer " + response.data.jwt;
           localStorage.setItem("jwt", response.data.jwt);
           console.log("Logged in successfully");
           this.$router.push("/");
         })
-        .catch(error => {
+        .catch((error) => {
           this.errors = ["Invalid email or password."];
           this.password = "";
-        }); // TO-DO!
-    }
-  }
+        });
+    },
+  },
 };
 </script>
