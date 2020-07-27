@@ -1,14 +1,11 @@
 <template>
-  <div class="home">
+  <div class="placesIndex">
     <h1>{{ message }}</h1>
     <ol>
       <li v-for="place in places">
-        <router-link :to="`/places/${place.id}`"><h4>{{ place.name }}</h4></router-link><br>
+        <router-link :to="`/places/${place.id}`"><h4>{{ place.name }}</h4></router-link>
         Favorited: {{ place.is_favorite }}<br>
-        ID: {{ place.yelp_id }}<br>
-        Bar? {{ place.bar }}<br>
-        Lat: {{ place.lat }}
-        Long: {{ place.lon }}
+        Bar: {{ place.bar }}<br>
         Category: {{ place.category }}<br>
         <img class="place_thumbnail" :src="place.image_url" alt="`place.name`">
         

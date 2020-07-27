@@ -1,10 +1,9 @@
 <template>
-  <div class="home">
+  <div class="placesShow">
     <h1>{{ place.name }}</h1><br>
     <img class="place_thumbnail" :src="place.image_url" alt="`place.name`"><br>
     Favorited: {{ place.is_favorite }}<br>
     Category: {{ place.category }}<br>
-    Yelp Info:<br>
     Rating: {{ place.yelp_details.rating }} |
     Price: {{ place.yelp_details.price }} | 
     Phone: {{ place.yelp_details.display_phone }}
@@ -17,7 +16,7 @@
     </li></ul>
     Reviews: <p v-for="review in place.yelp_reviews.reviews">
       Yelp User: {{ review.user.name }} | Rating: {{ review.rating }}<br>
-      {{review.text }}
+      {{ review.text }}
     </p> 
 
 
@@ -41,7 +40,7 @@ export default {
   created: function () {
     axios.get(`/api/places/${this.$route.params.id}`).then((response) => {
       this.place = response.data;
-      console.log(response.data);
+      console.log(this.place);
     });
   },
   methods: {},
