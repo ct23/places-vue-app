@@ -3,7 +3,7 @@
     <div v-if="place.yelp_details">
     <h1>{{ place.name }}</h1><br>
     <img class="place_thumbnail" :src="place.image_url" alt="`place.name`"><br>
-    Favorited: {{ place.is_favorite }}<br>
+    <span v-on:click="toggleFavorite(place)">Favorited: {{ place.is_favorite }}</span><br>
     Category: {{ place.category }}<br>
     Rating: {{ place.yelp_details.rating }} |
     Price: {{ place.yelp_details.price }} | 
@@ -76,6 +76,38 @@ export default {
     });
   },
   mounted: function () {},
-  methods: {},
+  methods: {
+    toggleFavorite: function (place) {
+      console.log(place);
+      // Check whether user is logged in
+      if (this.$parent.isLoggedIn()) {
+        // If user logged in, check whether place is already a favorite
+        if (place.is_favorite === true) {
+          console.log("Place is a favorite id " + place.favorite_id);
+          axios
+            .delete(`/api/favorites/${place.favorite_id}`)
+            .then(
+              console.log("Favorite deleted"),
+              (place.is_favorite = false),
+              (place.favorite_id = null)
+            );
+        } else {
+          console.log("Place is not a favorite");
+          this.params = {
+            user_id: this.$parent.getUserId(),
+            place_id: place.id,
+          };
+          axios.post("/api/favorites", this.params).then((response) => {
+            console.log("Place favorited");
+            place.is_favorite = true;
+            place.favorite_id = response.data.id;
+          });
+        }
+      } else {
+        // If user is not logged in, redirect to login page
+        this.$router.push("/login");
+      }
+    },
+  },
 };
 </script>
