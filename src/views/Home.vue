@@ -19,6 +19,7 @@
 
 <script>
 export default {
+  /* global google */
   data: function () {
     return {
       message: "Welcome to Vue.js!",
