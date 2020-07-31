@@ -78,23 +78,28 @@ export default {
       this.places = response.data;
       console.log(response.data);
 
-      mapboxgl.accessToken = process.env.VUE_APP_MAP_KEY;
-      var map = new mapboxgl.Map({
-        container: "map", // container id
-        style: "mapbox://styles/mapbox/streets-v11", // stylesheet location
-        center: [-87.620605, 41.875275],
-        zoom: 12,
-      });
-      // For each place
-      this.places.forEach((place) => {
-        var popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
-          `<router-link to="/places/${place.id}">${place.name}</router-link><br><a href="/places/${place.id}">${place.name}</router-link>`
-        );
-        var marker = new mapboxgl.Marker()
-          .setLngLat([place.lon, place.lat])
-          .setPopup(popup)
-          .addTo(map);
-      });
+      if (this.$parent.userLocation) {
+        this.searchQuery = this.$parent.userLocation;
+        this.geocode();
+      } else {
+        mapboxgl.accessToken = process.env.VUE_APP_MAP_KEY;
+        var map = new mapboxgl.Map({
+          container: "map", // container id
+          style: "mapbox://styles/mapbox/streets-v11", // stylesheet location
+          center: [-87.620605, 41.875275],
+          zoom: 12,
+        });
+        // For each place
+        this.places.forEach((place) => {
+          var popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
+            `<router-link to="/places/${place.id}">${place.name}</router-link><br><a href="/places/${place.id}">${place.name}</router-link>`
+          );
+          var marker = new mapboxgl.Marker()
+            .setLngLat([place.lon, place.lat])
+            .setPopup(popup)
+            .addTo(map);
+        });
+      }
     });
     axios.get("/api/categories").then((response) => {
       this.categories = response.data;
@@ -179,6 +184,7 @@ export default {
             );
           });
           // Re-render map based on new user location
+          console.log("Re-rendering map");
           mapboxgl.accessToken = process.env.VUE_APP_MAP_KEY;
           var map = new mapboxgl.Map({
             container: "map", // container id
@@ -187,8 +193,9 @@ export default {
             zoom: 13,
           });
           // For each place
+          console.log("Re-generating places");
           this.places.forEach((place) => {
-            if (place.category === this.selectedCat) {
+            if (!this.selectedCat || place.category === this.selectedCat) {
               var popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
                 `<router-link to="/places/${place.id}">${place.name}</router-link><br><a href="/places/${place.id}">${place.name}</router-link>`
               );

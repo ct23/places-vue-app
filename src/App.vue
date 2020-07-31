@@ -38,7 +38,11 @@
 
 <script>
 export default {
-  // data: function () {},
+  data: function () {
+    return {
+      userLocation: "",
+    };
+  },
   methods: {
     // Returns true or false depending on jwt in localstorage
     isLoggedIn: function () {
@@ -48,5 +52,6 @@ export default {
       return localStorage.getItem("user_id");
     },
   },
+  mounted() {},
 };
 </script>
