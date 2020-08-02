@@ -13,7 +13,7 @@
     </div>
     <!-- Else if user not logged in -->
     <div v-else>
-      <router-link to="/createaccount">Create an account</router-link>
+      <router-link to="/login">Log in or create an account</router-link>
     </div>
   </div>
 </template>
@@ -31,7 +31,7 @@ export default {
   created: function () {
     // If user not logged in, redirect to create account page
     if (!this.$parent.isLoggedIn()) {
-      this.$router.push("/createaccount");
+      this.$router.push("/login");
     } else {
       axios.get(`/api/users/${this.$parent.getUserId()}`).then((response) => {
         this.user = response.data;

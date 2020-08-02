@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
 import Places from '../views/PlacesIndex.vue';
 import Place from '../views/PlacesShow.vue';
+import Favorites from '../views/Favorites.vue';
 
 Vue.use(VueRouter);
 
@@ -54,6 +55,11 @@ const routes = [
     path: '/places/:id',
     name: 'Place',
     component: Place
+  },
+  {
+    path: '/favorites',
+    name: 'Favorites',
+    component: Favorites
   }
 ];
 
