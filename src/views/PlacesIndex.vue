@@ -13,6 +13,10 @@
           <option value="">All Categories</option>
           <option v-for="category in categories">{{ category.name }}</option>
         </select>
+        <select name="bars" id="bars" v-model="barsOnly">
+          <option value="">Bars and Restaurants</option>
+          <option value="true">Bars only</option>
+        </select>
         <input type="text" placeholder="User address search" v-model="searchQuery">
         <input type="submit" class="btn btn-primary" value="Submit">
       </form>
@@ -32,7 +36,7 @@
     <!-- Places list -->
     <ol>
       <!-- Orders by distance based on user input address, filters by category input -->
-      <li v-for="place in orderBy(filterBy(places, selectedCat, 'category'), 'distance')" :key="place.id">
+      <li v-for="place in orderBy(filterBy(filterBy(places, barsOnly, 'bar'), selectedCat, 'category'), 'distance')" :key="place.id">
         <router-link :to="`/places/${place.id}`"><h4>{{ place.name }}</h4></router-link>
         <span v-on:click="toggleFavorite(place)">Favorited: {{ place.is_favorite }}</span><br>
         Bar: {{ place.bar }}<br>
@@ -71,6 +75,7 @@ export default {
       startingLng: "-87.65628814697266",
       searchQuery: "",
       params: {},
+      barsOnly: "",
     };
   },
   created: function () {
