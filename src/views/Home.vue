@@ -9,8 +9,8 @@
           class="search-location"
           type="text"
           v-model="userLocation"
+          :onFocus="geolocate()"
           />
-          <!-- :onFocus="geolocate()" -->
           
           <input type="submit" class="btn btn-primary" value="Search">
      </form> 
@@ -47,18 +47,18 @@ export default {
       this.$parent.userLocation = this.userLocation;
       this.$router.push("/places");
     },
-    // geolocate: function () {
-    //   if (navigator.geolocation) {
-    //     navigator.geolocation.getCurrentPosition((position) => {
-    //       var geolocation = {
-    //         lat: position.coords.latitude,
-    //         lng: position.coords.longitude,
-    //       };
-    //       console.log(geolocation);
-    //       this.userLocation = geolocation.lng + ", " + geolocation.lat;
-    //     });
-    //   }
-    // },
+    geolocate: function () {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          var geolocation = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+          console.log(geolocation);
+          this.userLocation = geolocation.lng + ", " + geolocation.lat;
+        });
+      }
+    },
   },
 };
 </script>

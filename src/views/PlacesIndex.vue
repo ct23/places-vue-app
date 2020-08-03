@@ -17,19 +17,7 @@
           <option value="">Bars and Restaurants</option>
           <option value="true">Bars only</option>
         </select>
-         <!-- <select name="distance" id="distance" v-model="maxDistance">
-          <option value="">Maximum Distance (mi)</option>
-          <option value="1">1</option>
-          <option value="">Any</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="10">10</option>
-          <option value="15">15</option>
-          <option value="20">20</option>
-          <option value="25">25</option>
-        </select> -->
+      
         <input type="text" placeholder="Address search" v-model="searchQuery">
         <input type="submit" class="btn btn-primary" value="Submit">
       </form>
@@ -49,7 +37,7 @@
     <!-- Places list -->
     <ol>
       <!-- Orders by distance based on user input address, filters by category input, filters by bars only or all -->
-      <li v-for="place in orderBy(filterBy(filterBy(places, barsOnly, 'bar'), selectedCat, 'category'), 'distance')" :key="place.id">
+      <li v-for="place in filterBy(filterBy(places, barsOnly, 'bar'), selectedCat, 'category')">
         <router-link :to="`/places/${place.id}`"><h4>{{ place.name }}</h4></router-link>
         <span v-on:click="toggleFavorite(place)">Favorited: {{ place.is_favorite }}</span><br>
         Bar: {{ place.bar }}<br>
@@ -111,7 +99,7 @@ export default {
         // For each place
         this.places.forEach((place) => {
           var popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
-            `<router-link to="/places/${place.id}">${place.name}</router-link><br><a href="/places/${place.id}">${place.name}</router-link>`
+            `<a href="/places/${place.id}">${place.name}</router-link>`
           );
           var marker = new mapboxgl.Marker()
             .setLngLat([place.lon, place.lat])
@@ -125,6 +113,37 @@ export default {
       console.log(response.data);
     });
   },
+  // watch: {
+  //   selectedCat: function () {
+  //     // Handle cases when search query is left blank:
+  //     if (this.searchQuery === "") {
+  //       this.searchQuery = "Chicago, IL";
+  //     }
+  //     axios
+  //       .get(
+  //         `https://api.mapbox.com/geocoding/v5/mapbox.places/${this.searchQuery}.json?access_token=${process.env.VUE_APP_MAP_KEY}`
+  //       )
+  //       .then((response) => {
+  //         this.placeSearchObject = response.data;
+  //         console.log(this.placeSearchObject);
+  //         // this.startingLng = this.placeSearchObject.features[0].geometry.coordinates[0];
+  //         this.startingLng = response.data.features[0].geometry.coordinates[0];
+  //         this.startingLat = response.data.features[0].geometry.coordinates[1];
+  //         console.log("Lat " + this.startingLat);
+  //         console.log("Lng " + this.startingLng);
+  //         // Add distance attribute to each place
+  //         this.places.forEach((place) => {
+  //           place["distance"] = this.calcDistance(
+  //             this.startingLng,
+  //             this.startingLat,
+  //             place.lon,
+  //             place.lat
+  //           );
+  //         });
+  //         this.rerender();
+  //       });
+  //   },
+  // },
   methods: {
     toggleFavorite: function (place) {
       console.log(place);
@@ -202,6 +221,7 @@ export default {
               place.lat
             );
           });
+          this.places = this.orderBy(this.places, "distance");
           // // Re-render map based on new user location
           // console.log("Re-rendering map");
           // mapboxgl.accessToken = process.env.VUE_APP_MAP_KEY;
