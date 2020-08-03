@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <h1>{{ message }}</h1>
-    <h3>A directory of local, Chicago black-owned bars and restaurants</h3>
+    <h3>A directory of local Chicago black-owned bars and restaurants</h3>
 
     <form v-on:submit.prevent="search()">
       <input ref="autocomplete" 

@@ -202,29 +202,54 @@ export default {
               place.lat
             );
           });
-          // Re-render map based on new user location
-          console.log("Re-rendering map");
-          mapboxgl.accessToken = process.env.VUE_APP_MAP_KEY;
-          var map = new mapboxgl.Map({
-            container: "map", // container id
-            style: "mapbox://styles/mapbox/streets-v11", // stylesheet location
-            center: [this.startingLng, this.startingLat],
-            zoom: 13,
-          });
-          // For each place
-          console.log("Re-generating places");
-          this.places.forEach((place) => {
-            if (!this.selectedCat || place.category === this.selectedCat) {
-              var popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
-                `<router-link to="/places/${place.id}">${place.name}</router-link><br><a href="/places/${place.id}">${place.name}</router-link>`
-              );
-              var marker = new mapboxgl.Marker()
-                .setLngLat([place.lon, place.lat])
-                .setPopup(popup)
-                .addTo(map);
-            }
-          });
+          // // Re-render map based on new user location
+          // console.log("Re-rendering map");
+          // mapboxgl.accessToken = process.env.VUE_APP_MAP_KEY;
+          // var map = new mapboxgl.Map({
+          //   container: "map", // container id
+          //   style: "mapbox://styles/mapbox/streets-v11", // stylesheet location
+          //   center: [this.startingLng, this.startingLat],
+          //   zoom: 13,
+          // });
+          // // For each place
+          // console.log("Re-generating places");
+          // this.places.forEach((place) => {
+          //   if (!this.selectedCat || place.category === this.selectedCat) {
+          //     var popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
+          //       `<router-link to="/places/${place.id}">${place.name}</router-link><br><a href="/places/${place.id}">${place.name}</router-link>`
+          //     );
+          //     var marker = new mapboxgl.Marker()
+          //       .setLngLat([place.lon, place.lat])
+          //       .setPopup(popup)
+          //       .addTo(map);
+          //   }
+          // });
+          this.rerender();
         });
+    },
+    rerender: function () {
+      // Re-render map based on new user location
+      console.log("Re-rendering map");
+      mapboxgl.accessToken = process.env.VUE_APP_MAP_KEY;
+      var map = new mapboxgl.Map({
+        container: "map", // container id
+        style: "mapbox://styles/mapbox/streets-v11", // stylesheet location
+        center: [this.startingLng, this.startingLat],
+        zoom: 13,
+      });
+      // For each place
+      console.log("Re-generating places");
+      this.places.forEach((place) => {
+        if (!this.selectedCat || place.category === this.selectedCat) {
+          var popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
+            `<router-link to="/places/${place.id}">${place.name}</router-link><br><a href="/places/${place.id}">${place.name}</router-link>`
+          );
+          var marker = new mapboxgl.Marker()
+            .setLngLat([place.lon, place.lat])
+            .setPopup(popup)
+            .addTo(map);
+        }
+      });
     },
   },
 };
