@@ -11,6 +11,7 @@
           v-model="userLocation"
           />
           <!-- :onFocus="geolocate()" -->
+          
           <input type="submit" class="btn btn-primary" value="Search">
      </form> 
   </div>
@@ -48,13 +49,13 @@ export default {
     },
     // geolocate: function () {
     //   if (navigator.geolocation) {
-    //     navigator.geolocation.getCurrentPosition(function (position) {
+    //     navigator.geolocation.getCurrentPosition((position) => {
     //       var geolocation = {
     //         lat: position.coords.latitude,
     //         lng: position.coords.longitude,
     //       };
     //       console.log(geolocation);
-    //       this.userLocation = geolocation;
+    //       this.userLocation = geolocation.lng + ", " + geolocation.lat;
     //     });
     //   }
     // },
