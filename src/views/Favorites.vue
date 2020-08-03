@@ -11,7 +11,7 @@
         <span v-on:click="removeFavorite(favorite)">Remove favorite</span><br>
         Bar: {{ favorite.place.bar }}<br>
         Category: {{ favorite.place.category }}<br>
-        <img class="place_thumbnail" :src="favorite.place.image_url" alt="`favorite.place.name`">
+        <router-link :to="`/places/${favorite.place_id}`"><img class="place_thumbnail" :src="favorite.place.image_url" alt="`favorite.place.name`"></router-link>
         
       </li>
     </ol>

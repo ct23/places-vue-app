@@ -17,7 +17,20 @@
           <option value="">Bars and Restaurants</option>
           <option value="true">Bars only</option>
         </select>
-        <input type="text" placeholder="User address search" v-model="searchQuery">
+         <!-- <select name="distance" id="distance" v-model="maxDistance">
+          <option value="">Maximum Distance (mi)</option>
+          <option value="1">1</option>
+          <option value="">Any</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="15">15</option>
+          <option value="20">20</option>
+          <option value="25">25</option>
+        </select> -->
+        <input type="text" placeholder="Address search" v-model="searchQuery">
         <input type="submit" class="btn btn-primary" value="Submit">
       </form>
     </div>
@@ -35,13 +48,13 @@
 
     <!-- Places list -->
     <ol>
-      <!-- Orders by distance based on user input address, filters by category input -->
+      <!-- Orders by distance based on user input address, filters by category input, filters by bars only or all -->
       <li v-for="place in orderBy(filterBy(filterBy(places, barsOnly, 'bar'), selectedCat, 'category'), 'distance')" :key="place.id">
         <router-link :to="`/places/${place.id}`"><h4>{{ place.name }}</h4></router-link>
         <span v-on:click="toggleFavorite(place)">Favorited: {{ place.is_favorite }}</span><br>
         Bar: {{ place.bar }}<br>
         Category: {{ place.category }}<br>
-        <img class="place_thumbnail" :src="place.image_url" alt="`place.name`">
+        <router-link :to="`/places/${place.id}`"><img class="place_thumbnail" :src="place.image_url" alt="`place.name`"></router-link>
         
       </li>
     </ol>
@@ -76,6 +89,7 @@ export default {
       searchQuery: "",
       params: {},
       barsOnly: "",
+      maxDistance: "",
     };
   },
   created: function () {

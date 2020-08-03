@@ -15,6 +15,7 @@
     <ul><li v-for="category in place.yelp_details.categories">
         {{ category.title }}
     </li></ul>
+    Photos:<br><span v-for="photo in place.yelp_details.photos"><img class="place_thumbnail" :src="photo"></span><br>
     Reviews: <p v-for="review in place.yelp_reviews.reviews">
       Yelp User: {{ review.user.name }} | Rating: {{ review.rating }}<br>
       {{ review.text }}
@@ -64,7 +65,7 @@ export default {
         zoom: 13,
       });
       var popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
-        `${this.place.name}<br>${this.place.yelp_details.location.display_address}<br><a href="https://www.google.com/maps/dir/?api=1&destination=${this.place.yelp_details.location.display_address}">Directions</a>`
+        `${this.place.name}<br>${this.place.yelp_details.location.display_address}<br><a target="_blank" rel="noopener noreferrer" href="https://www.google.com/maps/dir/?api=1&destination=${this.place.yelp_details.location.display_address}">Directions</a>`
       );
       var marker = new mapboxgl.Marker()
         .setLngLat([
