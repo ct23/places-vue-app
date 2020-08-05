@@ -1,14 +1,169 @@
 <template>
   <div class="placesIndex">
-    <h1>{{ message }}</h1>
+    <div class="main-wrapper">
+      <!-- ====================================
+———	LISTING HALF MAP GRID
+===================================== -->
+      <section class="main-contentiner map-half-content grid-two-items">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-6 order-lg-2 pl-lg-0">
+              <!-- Half Map -->
+              <div class="inner-container">
+                <div class="map-lg-fixed">
+                  <div class="map-container">
+                    <!-- <div id="listing-main-map" class="map-half"></div> -->
+                    <div id="map" class="map-half"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 px-xl-6">
+              <div class="row">
+                <div class="col-12">
+                  <!-- Search Box 2 -->
+                  <div class="search-box-2 bg-light pb-3 pb-md-1">
+                    <form class="row " v-on:submit.prevent="geocode()">
+                      <div class="form-group col-md-6 col-lg-12 col-xl-6">
+                        <div class="input-group mb-2">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">Category</div>
+                          </div>
+
+                          <div class="select-default">
+                            <select
+                              v-model="selectedCat"
+                              class="select-location form-control"
+                            >
+                              <option value="">All Categories</option>
+                              <option v-for="category in categories">{{
+                                category.name
+                              }}</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div
+                        class="form-group prepend-append col-md-6 col-lg-12 col-xl-6"
+                      >
+                        <div class="input-group mb-2">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">Near</div>
+                          </div>
+                          <input
+                            type="text"
+                            v-model="searchQuery"
+                            class="form-control"
+                            placeholder="Location"
+                            required
+                          />
+                        </div>
+                      </div>
+
+                      <div
+                        class="form-group prepend-append col-md-6 col-lg-12 col-xl-6"
+                      >
+                        <div class="input-group mb-2">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">Type</div>
+                          </div>
+                          <div class="select-default">
+                            <select
+                              v-model="barsOnly"
+                              class="select-location form-control"
+                            >
+                              <option value="">Bars and Restaurants</option>
+                              <option value="true">Bars only</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="form-group col-md-6 col-lg-12 col-xl-3">
+                        <button type="submit" class="btn btn-block btn-primary">
+                          Update
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div
+                  v-for="place in filterBy(
+                    filterBy(places, barsOnly, 'bar'),
+                    selectedCat,
+                    'category'
+                  )"
+                  class="col-md-6"
+                >
+                  <div
+                    class="card rounded-0 card-hover-overlay card-listing"
+                    :data-lat="place.lat"
+                    :data-lag="place.lon"
+                    :data-id="place.id"
+                  >
+                    <div class="position-relative">
+                      <img
+                        class="card-img rounded-0 listing-img"
+                        :src="place.image_url"
+                        :alt="place.name"
+                      />
+                      <router-link :to="`/places/${place.id}`"
+                        ><div class="card-img-overlay">
+                          <h3 class="listing-title">
+                            <router-link :to="`/places/${place.id}`">
+                              {{ place.name }}
+                            </router-link>
+                          </h3>
+                          <p class="text-white listing-address">
+                            {{ place.category }}
+                          </p>
+                        </div></router-link
+                      >
+                    </div>
+
+                    <div class="card-footer bg-transparent">
+                      <ul class="list-unstyled d-flex mb-0 py-2">
+                        <li>
+                          <button
+                            class="btn-like px-2"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            title="Favorite this listing"
+                            v-on:click="toggleFavorite(place)"
+                          >
+                            <i
+                              v-if="!place.is_favorite"
+                              class="fa fa-heart-o text-primary"
+                              aria-hidden="true"
+                            ></i>
+                            <i
+                              v-else
+                              class="fa fa-heart text-primary"
+                              aria-hidden="true"
+                            ></i>
+                          </button>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
     <!-- Map -->
-    <div id="map"></div>
+    <!-- <div id="map"></div> -->
 
     <!-- User location input -->
     <div>
       <form v-on:submit.prevent="geocode()">
-        <!-- <input type="text" placeholder="User longitude" v-model="startingLng">
-        <input type="text" placeholder="User latitude" v-model="startingLat"> -->
         <select name="cats" id="cats" v-model="selectedCat">
           <option value="">All Categories</option>
           <option v-for="category in categories">{{ category.name }}</option>
@@ -17,33 +172,36 @@
           <option value="">Bars and Restaurants</option>
           <option value="true">Bars only</option>
         </select>
-      
-        <input type="text" placeholder="Address search" v-model="searchQuery">
-        <input type="submit" class="btn btn-primary" value="Submit">
-      </form>
-    </div>
 
-
-    <!-- Category filter -->
-    <div>
-      <form>
-        <!-- <select name="cats" id="cats" v-model="selectedCat">
-          <option value="">All Categories</option>
-          <option v-for="category in categories">{{ category.name }}</option>
-        </select> -->
+        <input type="text" placeholder="Address search" v-model="searchQuery" />
+        <input type="submit" class="btn btn-primary" value="Submit" />
       </form>
     </div>
 
     <!-- Places list -->
     <ol>
       <!-- Orders by distance based on user input address, filters by category input, filters by bars only or all -->
-      <li v-for="place in filterBy(filterBy(places, barsOnly, 'bar'), selectedCat, 'category')">
-        <router-link :to="`/places/${place.id}`"><h4>{{ place.name }}</h4></router-link>
-        <span v-on:click="toggleFavorite(place)">Favorited: {{ place.is_favorite }}</span><br>
-        Bar: {{ place.bar }}<br>
-        Category: {{ place.category }}<br>
-        <router-link :to="`/places/${place.id}`"><img class="place_thumbnail" :src="place.image_url" alt="`place.name`"></router-link>
-        
+      <li
+        v-for="place in filterBy(
+          filterBy(places, barsOnly, 'bar'),
+          selectedCat,
+          'category'
+        )"
+      >
+        <router-link :to="`/places/${place.id}`"
+          ><h4>{{ place.name }}</h4></router-link
+        >
+        <span v-on:click="toggleFavorite(place)"
+          >Favorited: {{ place.is_favorite }}</span
+        ><br />
+        Bar: {{ place.bar }}<br />
+        Category: {{ place.category }}<br />
+        <router-link :to="`/places/${place.id}`"
+          ><img
+            class="place_thumbnail"
+            :src="place.image_url"
+            alt="`place.name`"
+        /></router-link>
       </li>
     </ol>
   </div>
@@ -53,9 +211,14 @@
 .place_thumbnail {
   height: 200px;
 }
-.map {
-  height: 30em;
-  width: 30em;
+/* #map {
+  width: 100%;
+  height: 438px;
+  margin-bottom: 30px;
+} */
+.listing-img {
+  background-position: cover;
+  height: 300px;
 }
 </style>
 
@@ -66,7 +229,7 @@ import Vue2Filters from "vue2-filters";
 
 export default {
   mixins: [Vue2Filters.mixin],
-  data: function () {
+  data: function() {
     return {
       message: "Welcome to Places index!",
       places: {},
@@ -80,7 +243,7 @@ export default {
       maxDistance: "",
     };
   },
-  created: function () {
+  created: function() {
     axios.get("/api/places").then((response) => {
       this.places = response.data;
       console.log(response.data);
@@ -145,7 +308,7 @@ export default {
   //   },
   // },
   methods: {
-    toggleFavorite: function (place) {
+    toggleFavorite: function(place) {
       console.log(place);
       // Check whether user is logged in
       if (this.$parent.isLoggedIn()) {
@@ -176,7 +339,7 @@ export default {
         this.$router.push("/login");
       }
     },
-    calcDistance: function (lon1, lat1, lon2, lat2) {
+    calcDistance: function(lon1, lat1, lon2, lat2) {
       var R = 6371; // Radius of the earth in km
       var dLat = this.toRad(lat2 - lat1); // Javascript functions in radians
       var dLon = this.toRad(lon2 - lon1);
@@ -192,10 +355,10 @@ export default {
       return d;
     },
     /** Converts numeric degrees to radians */
-    toRad: function (number) {
+    toRad: function(number) {
       return (number * Math.PI) / 180;
     },
-    geocode: function () {
+    geocode: function() {
       // Handle cases when search query is left blank:
       if (this.searchQuery === "") {
         this.searchQuery = "Chicago, IL";
@@ -222,32 +385,11 @@ export default {
             );
           });
           this.places = this.orderBy(this.places, "distance");
-          // // Re-render map based on new user location
-          // console.log("Re-rendering map");
-          // mapboxgl.accessToken = process.env.VUE_APP_MAP_KEY;
-          // var map = new mapboxgl.Map({
-          //   container: "map", // container id
-          //   style: "mapbox://styles/mapbox/streets-v11", // stylesheet location
-          //   center: [this.startingLng, this.startingLat],
-          //   zoom: 13,
-          // });
-          // // For each place
-          // console.log("Re-generating places");
-          // this.places.forEach((place) => {
-          //   if (!this.selectedCat || place.category === this.selectedCat) {
-          //     var popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
-          //       `<router-link to="/places/${place.id}">${place.name}</router-link><br><a href="/places/${place.id}">${place.name}</router-link>`
-          //     );
-          //     var marker = new mapboxgl.Marker()
-          //       .setLngLat([place.lon, place.lat])
-          //       .setPopup(popup)
-          //       .addTo(map);
-          //   }
-          // });
+
           this.rerender();
         });
     },
-    rerender: function () {
+    rerender: function() {
       // Re-render map based on new user location
       console.log("Re-rendering map");
       mapboxgl.accessToken = process.env.VUE_APP_MAP_KEY;

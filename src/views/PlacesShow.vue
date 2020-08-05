@@ -1,31 +1,55 @@
 <template>
   <div class="placesShow">
     <div v-if="place.yelp_details">
-    <h1>{{ place.name }}</h1><br>
-    <img class="place_thumbnail" :src="place.image_url" alt="`place.name`"><br>
-    <span v-on:click="toggleFavorite(place)">Favorited: {{ place.is_favorite }}</span><br>
-    Category: {{ place.category }}<br>
-    Rating: {{ place.yelp_details.rating }} |
-    Price: {{ place.yelp_details.price }} | 
-    Phone: {{ place.yelp_details.display_phone }}
-    <span v-if="place.yelp_details.hours">| Open now: {{ place.yelp_details.hours[0].is_open_now }}</span><br>
-    Address: <div v-for="address_line in place.yelp_details.location.display_address">{{ address_line }}</div><br>
-    <a target="_blank" rel="noopener noreferrer" :href="`${place.yelp_details.url}`">Yelp (insert required logo)</a> <br>
-    Yelp Categories:
-    <ul><li v-for="category in place.yelp_details.categories">
-        {{ category.title }}
-    </li></ul>
-    Photos:<br><span v-for="photo in place.yelp_details.photos"><img class="place_thumbnail" :src="photo"></span><br>
-    Reviews: <p v-for="review in place.yelp_reviews.reviews">
-      Yelp User: {{ review.user.name }} | Rating: {{ review.rating }}<br>
-      {{ review.text }}
-      <a target="_blank" rel="noopener noreferrer" :href="`${review.url}`">Read more</a>
-    </p>
+      <h1>{{ place.name }}</h1>
+      <br />
+      <img
+        class="place_thumbnail"
+        :src="place.image_url"
+        alt="`place.name`"
+      /><br />
+      <span v-on:click="toggleFavorite(place)"
+        >Favorited: {{ place.is_favorite }}</span
+      ><br />
+      Category: {{ place.category }}<br />
+      Rating: {{ place.yelp_details.rating }} | Price:
+      {{ place.yelp_details.price }} | Phone:
+      {{ place.yelp_details.display_phone }}
+      <span v-if="place.yelp_details.hours"
+        >| Open now: {{ place.yelp_details.hours[0].is_open_now }}</span
+      ><br />
+      Address:
+      <div v-for="address_line in place.yelp_details.location.display_address">
+        {{ address_line }}
+      </div>
+      <br />
+      <a
+        target="_blank"
+        rel="noopener noreferrer"
+        :href="`${place.yelp_details.url}`"
+        >Yelp (insert required logo)</a
+      >
+      <br />
+      Yelp Categories:
+      <ul>
+        <li v-for="category in place.yelp_details.categories">
+          {{ category.title }}
+        </li>
+      </ul>
+      Photos:<br /><span v-for="photo in place.yelp_details.photos"
+        ><img class="place_thumbnail" :src="photo"/></span
+      ><br />
+      Reviews:
+      <p v-for="review in place.yelp_reviews.reviews">
+        Yelp User: {{ review.user.name }} | Rating: {{ review.rating }}<br />
+        {{ review.text }}
+        <a target="_blank" rel="noopener noreferrer" :href="`${review.url}`"
+          >Read more</a
+        >
+      </p>
     </div>
     <!-- Map -->
     <div id="map"></div>
-
-
   </div>
 </template>
 
@@ -34,23 +58,24 @@
   height: 200px;
 }
 
-#map {
-  height: 40em;
-  width: 30em;
-}
+/* #map {
+  width: 100%;
+  height: 438px;
+  margin-bottom: 30px;
+} */
 </style>
 
 <script>
 /* global mapboxgl */
 import axios from "axios";
 export default {
-  data: function () {
+  data: function() {
     return {
       place: {},
       formattedAddress: "",
     };
   },
-  created: function () {
+  created: function() {
     axios.get(`/api/places/${this.$route.params.id}`).then((response) => {
       this.place = response.data;
       console.log(this.place);
@@ -76,9 +101,9 @@ export default {
         .addTo(map);
     });
   },
-  mounted: function () {},
+  mounted: function() {},
   methods: {
-    toggleFavorite: function (place) {
+    toggleFavorite: function(place) {
       console.log(place);
       // Check whether user is logged in
       if (this.$parent.isLoggedIn()) {
