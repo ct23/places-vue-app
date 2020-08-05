@@ -1,40 +1,71 @@
-
-
 <template>
   <div class="accountEdit">
-    <h1>Edit Account Details</h1>
-
     <!-- Only shown if user is logged in -->
     <form v-on:submit.prevent="editUser()" v-if="$parent.isLoggedIn()">
+      <div class="card">
+        <div class="card-body p-6">
+          <h2 class="font-weight-normal mb-4">Edit Account Info</h2>
+          <!-- Error handling -->
+          <ul>
+            <li class="text-danger" v-for="error in errors">{{ error }}</li>
+          </ul>
 
-      <!-- Error handling -->
-      <ul>
-        <li class="text-danger" v-for="error in errors">{{ error }}</li>
-      </ul>
-
-      <div class="form-group">
-        <label for="name">Name:</label> 
-        <input id="name" type="text" class="form-control" v-model="user.name">
+          <div class="row">
+            <div class="form-group col-md-6 mb-6">
+              <label for="nameProfile">Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="nameProfile"
+                placeholder="Name"
+                v-model="user.name"
+              />
+            </div>
+            <div class="form-group col-md-6 mb-6">
+              <label for="emailProfile">Email</label>
+              <input
+                type="email"
+                class="form-control"
+                placeholder="Email"
+                v-model="user.email"
+              />
+            </div>
+            <div class="form-group col-md-6 mb-6">
+              <label for="passwordConfirmationProfile">Password</label>
+              <input
+                type="password"
+                class="form-control"
+                placeholder="Password"
+                v-model="password"
+              />
+              <em>Leave blank for no change</em>
+            </div>
+            <div class="form-group col-md-6 mb-6">
+              <label for="passwordConfirmationProfile"
+                >Password confirmation</label
+              >
+              <input
+                type="password"
+                class="form-control"
+                placeholder="Password confirmation"
+                v-model="passwordConfirmation"
+              />
+            </div>
+          </div>
+          <div class="mt-4">
+            <input
+              type="submit"
+              class="btn btn-primary text-uppercase"
+              value="Save Changes"
+            />
+          </div>
+        </div>
       </div>
-      <div class="form-group">
-        <label for="email">Email:</label>
-        <input id="email" type="email" class="form-control" v-model="user.email">
-      </div>
-      <div class="form-group">
-        <label for="password">Password:</label>
-        <input id="password" type="password" class="form-control" v-model="password">
-      </div>
-      <div class="form-group">
-        <label for="password_confirmation">Password confirmation:</label>
-        <input id="password_confirmation" type="password" class="form-control" v-model="passwordConfirmation">
-      </div>
-      <input type="submit" class="btn btn-primary" value="Submit">
     </form>
     <!-- Else if user not logged in -->
     <div v-else>
       <router-link to="/login">Log in or create an account</router-link>
     </div>
-
   </div>
 </template>
 
@@ -42,7 +73,7 @@
 import axios from "axios";
 
 export default {
-  data: function () {
+  data: function() {
     return {
       user: {},
       errors: [],
@@ -50,7 +81,7 @@ export default {
       passwordConfirmation: "",
     };
   },
-  created: function () {
+  created: function() {
     // If user not logged in, redirect to create account page
     if (!this.$parent.isLoggedIn()) {
       this.$router.push("/login");
@@ -62,7 +93,7 @@ export default {
     }
   },
   methods: {
-    editUser: function () {
+    editUser: function() {
       var params = {
         name: this.user.name,
         email: this.user.email,

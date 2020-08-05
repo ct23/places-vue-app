@@ -15,8 +15,8 @@
                   <span
                     v-for="address_line in place.yelp_details.location
                       .display_address"
-                    >{{ address_line }}</span
-                  >
+                    >{{ address_line }}<br
+                  /></span>
                 </p>
                 <p class="text-muted mb-1">
                   <i class="fa fa-phone text-primary mr-1"></i>
@@ -29,26 +29,30 @@
                   Open now
                 </p>
                 <div class="d-flex align-items-center">
+                  <span class="d-inline-block mr-2">
+                    <a
+                      :href="place.yelp_details.url"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      ><img
+                        class="yelp-logo"
+                        src="/assets/img/yelp/Yelp_Logo.png"
+                    /></a>
+                  </span>
                   <ul class="list-inline list-inline-rating mr-2">
                     <li class="list-inline-item">
-                      <i class="fa fa-star" aria-hidden="true"></i>
-                    </li>
-                    <li class="list-inline-item">
-                      <i class="fa fa-star" aria-hidden="true"></i>
-                    </li>
-                    <li class="list-inline-item">
-                      <i class="fa fa-star" aria-hidden="true"></i>
-                    </li>
-                    <li class="list-inline-item">
-                      <i class="fa fa-star" aria-hidden="true"></i>
-                    </li>
-                    <li class="list-inline-item">
-                      <i class="fa fa-star" aria-hidden="true"></i>
+                      <img
+                        :src="
+                          `/assets/img/yelp/yelp_stars/web_and_ios/small/small_${place.yelp_details.rating}.png`
+                        "
+                        alt="yelp_stars"
+                      />
                     </li>
                   </ul>
                   <span class="d-inline-block mr-2"
                     >({{ place.yelp_details.review_count }} Reviews)</span
                   >
+
                   <span class="d-inline-block mr-2"
                     >Price: {{ place.yelp_details.price }}</span
                   >
@@ -139,19 +143,10 @@
                     <h5 class="media-heading">{{ review.user.name }}</h5>
                     <ul class="list-inline list-inline-rating">
                       <li class="list-inline-item">
-                        <i class="fa fa-star" aria-hidden="true"></i>
-                      </li>
-                      <li class="list-inline-item">
-                        <i class="fa fa-star" aria-hidden="true"></i>
-                      </li>
-                      <li class="list-inline-item">
-                        <i class="fa fa-star" aria-hidden="true"></i>
-                      </li>
-                      <li class="list-inline-item">
-                        <i class="fa fa-star" aria-hidden="true"></i>
-                      </li>
-                      <li class="list-inline-item">
-                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <img
+                          src="/assets/img/yelp/yelp_stars/web_and_ios/small/small_1.png"
+                          alt="yelp_stars"
+                        />
                       </li>
                     </ul>
                     <p>
@@ -178,9 +173,7 @@
                   id="single-listing-map"
                   :data-lat="place.yelp_details.coordinates.latitude"
                   :data-lag="place.yelp_details.coordinates.longitude"
-                >
-                  <!-- <div id="map"></div> -->
-                </div>
+                ></div>
                 <div class="px-6 py-5">
                   <ul class="list-unstyled mb-0">
                     <li class="d-flex align-items-start">
@@ -278,9 +271,6 @@
       </section>
     </div>
     <!-- element wrapper ends -->
-
-    <!-- Map -->
-    <div class="showMap" id="map"></div>
   </div>
 </template>
 
@@ -295,8 +285,13 @@
 
 .showMap {
   width: 100%;
-  height: 438px;
-  margin-bottom: 30px;
+  /* height: 438px;
+  margin-bottom: 30px; */
+}
+
+.yelp-logo {
+  width: 50px;
+  height: auto;
 }
 </style>
 
@@ -316,26 +311,32 @@ export default {
     axios.get(`/api/places/${this.$route.params.id}`).then((response) => {
       this.place = response.data;
       console.log(this.place);
+      console.log(this.place.yelp_details);
       mapboxgl.accessToken = process.env.VUE_APP_MAP_KEY;
-      var map = new mapboxgl.Map({
-        container: "map", // container id
-        style: "mapbox://styles/mapbox/streets-v11", // stylesheet location
-        center: [
-          this.place.yelp_details.coordinates.longitude,
-          this.place.yelp_details.coordinates.latitude,
-        ],
-        zoom: 13,
-      });
-      // var popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
-      //   `${this.place.name}<br>${this.place.yelp_details.location.display_address}<br><a target="_blank" rel="noopener noreferrer" href="https://www.google.com/maps/dir/?api=1&destination=${this.place.yelp_details.location.display_address}">Directions</a>`
-      // );
-      // var marker = new mapboxgl.Marker()
-      //   .setLngLat([
-      //     this.place.yelp_details.coordinates.longitude,
-      //     this.place.yelp_details.coordinates.latitude,
-      //   ])
-      //   .setPopup(popup)
-      //   .addTo(map);
+      setTimeout(
+        function() {
+          var map = new mapboxgl.Map({
+            container: "single-listing-map", // container id
+            style: "mapbox://styles/mapbox/streets-v11", // stylesheet location
+            center: [
+              this.place.yelp_details.coordinates.longitude,
+              this.place.yelp_details.coordinates.latitude,
+            ],
+            zoom: 13,
+          });
+          var popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
+            `${this.place.name}<br>${this.place.yelp_details.location.display_address}<br><a target="_blank" rel="noopener noreferrer" href="https://www.google.com/maps/dir/?api=1&destination=${this.place.yelp_details.location.display_address}">Directions</a>`
+          );
+          var marker = new mapboxgl.Marker()
+            .setLngLat([
+              this.place.yelp_details.coordinates.longitude,
+              this.place.yelp_details.coordinates.latitude,
+            ])
+            .setPopup(popup)
+            .addTo(map);
+        }.bind(this),
+        2000
+      );
     });
   },
   mounted: function() {},
