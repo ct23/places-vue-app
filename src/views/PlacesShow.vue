@@ -22,6 +22,12 @@
                   <i class="fa fa-phone text-primary mr-1"></i>
                   {{ place.yelp_details.display_phone }}
                 </p>
+                <p
+                  v-if="place.yelp_details.hours[0].is_open_now"
+                  class="text-muted mb-1"
+                >
+                  Open now
+                </p>
                 <div class="d-flex align-items-center">
                   <ul class="list-inline list-inline-rating mr-2">
                     <li class="list-inline-item">
@@ -42,6 +48,9 @@
                   </ul>
                   <span class="d-inline-block mr-2"
                     >({{ place.yelp_details.review_count }} Reviews)</span
+                  >
+                  <span class="d-inline-block mr-2"
+                    >Price: {{ place.yelp_details.price }}</span
                   >
                   <button
                     class="btn-like px-2"
@@ -91,139 +100,17 @@
         <div class="container">
           <div class="row">
             <div class="col-md-7 col-lg-8">
-              <!-- About -->
-              <div class="single-listing-content mb-6">
-                <h3 class="font-weight-normal mb-6">About This Restuarant</h3>
-                <p class="mb-6">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-                  eiusmod tempor incididunt labore et dolore magna aliqua.Ut
-                  enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                  irure dolor in reprehenderit in voluptate velit esse cillum
-                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                  cupidatat non proident. sunt in culpa qui officia deserunt
-                  mollit anim id est laborum. Sed ut perspiciatis unde omnis
-                  iste natus error sit voluptatem accusantium doloremque
-                  laudantium, totam rem aperiam.
-                </p>
-
-                <!-- Hours -->
-                <div class="mb-6">
-                  <h4 class="font-weight-normal mb-4">Hours</h4>
-                  <p class="mb-1">LUNCH - MONDAY – FRIDAY: 11:30am-3pm</p>
-                  <p class="mb-1">ALL DAY MENU - MONDAY – FRIDAY: 3pm-5:30pm</p>
-                  <p class="mb-1">DINNER - MONDAY – SUNDAY: 5:30pm-11pm</p>
-                  <p class="mb-1">BRUNCH - 10am-3pm</p>
-                </div>
-
-                <!-- Departments at this Store -->
-                <div class="mb-6">
-                  <h4 class="font-weight-normal mb-4">Services</h4>
-                  <p class="mb-1">Counter Service</p>
-                  <p class="mb-1">Table Service</p>
-                  <p class="mb-1">Buffet Service</p>
-                  <p class="mb-1">Self Service</p>
-                  <p class="mb-1">Gueridon Service</p>
-                </div>
-
-                <!-- Departments at this Store -->
-                <div class="mb-6">
-                  <h4 class="font-weight-normal mb-4">Seating</h4>
-                  <p class="mb-1">55 Guests in our Main Dining Room</p>
-                  <p class="mb-1">16 Guests in our Garden Room</p>
-                </div>
-              </div>
-
-              <hr />
-
-              <!-- Features -->
+              <!-- Categories -->
               <div class="my-6">
-                <h3 class="font-weight-normal mb-6">Features</h3>
+                <h3 class="font-weight-normal mb-6">Categories</h3>
                 <ul class="list-unstyled mb-7">
-                  <li class="d-inline-block mr-4 mb-2">
-                    <i class="fa fa-wifi mr-2" aria-hidden="true"></i>High Speed
-                    Wifi
-                  </li>
-                  <li class="d-inline-block mr-4 mb-2">
-                    <i class="fa fa-car mr-2" aria-hidden="true"></i>Street
-                    Parking
-                  </li>
-                  <li class="d-inline-block mr-4 mb-2">
-                    <i class="fa fa-glass mr-2" aria-hidden="true"></i>Alcohol
-                  </li>
-                  <li class="d-inline-block mr-4 mb-2">
-                    <i class="fa fa-pagelines mr-2" aria-hidden="true"></i
-                    >Vegetarian
-                  </li>
-                  <li class="d-inline-block mr-4 mb-2">
-                    <i class="fa fa-cube mr-2" aria-hidden="true"></i
-                    >Reservations
-                  </li>
-                  <li class="d-inline-block mr-4 mb-2">
-                    <i class="fa fa-check-circle-o mr-2" aria-hidden="true"></i>
-                    Pets Friendly
-                  </li>
-                  <li class="d-inline-block mr-4 mb-2">
-                    <i class="fa fa-credit-card mr-2" aria-hidden="true"></i
-                    >Accept Credit Card
+                  <li
+                    v-for="category in place.yelp_details.categories"
+                    class="d-inline-block mr-4 mb-2"
+                  >
+                    {{ category.title }}
                   </li>
                 </ul>
-                <hr />
-              </div>
-
-              <!-- Added By -->
-              <div>
-                <h3 class="font-weight-normal mb-6">Added By</h3>
-                <div class="media mb-7">
-                  <div class="media-img">
-                    <img
-                      src="assets/img/user/user-xs-4.jpg"
-                      class="mr-3 media-object rounded-circle"
-                      alt="Image User"
-                    />
-                  </div>
-                  <div class="media-body">
-                    <h5 class="media-heading">Adam Smith</h5>
-                    <div
-                      class="d-flex flex-column flex-lg-row align-items-lg-center"
-                    >
-                      <ul
-                        class="list-inline d-flex flex-column flex-lg-row mb-0"
-                      >
-                        <li class="list-inline-item">
-                          <i class="fa fa-phone" aria-hidden="true"></i>
-                          <span class="ml-2">+55 654 545 122</span>
-                        </li>
-                        <li class="list-inline-item">
-                          <i class="fa fa-envelope" aria-hidden="true"></i>
-                          <span class="ml-2">example.com</span>
-                        </li>
-                      </ul>
-
-                      <ul class="list-inline list-inline-icon ml-lg-auto">
-                        <li class="list-inline-item">
-                          <a class="mr-2" href="#">
-                            <i
-                              class="fa fa-facebook-official"
-                              aria-hidden="true"
-                            ></i>
-                          </a>
-                        </li>
-                        <li class="list-inline-item">
-                          <a class="mr-2" href="#">
-                            <i class="fa fa-twitter" aria-hidden="true"></i>
-                          </a>
-                        </li>
-                        <li class="list-inline-item">
-                          <a class="mr-2" href="#">
-                            <i class="fa fa-instagram" aria-hidden="true"></i>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-
                 <hr />
               </div>
 
@@ -281,72 +168,6 @@
 
                 <hr />
               </div>
-
-              <!-- Add Review -->
-              <div class="my-6" id="add-review">
-                <h3 class="font-weight-normal mb-6">Add Review</h3>
-                <span class="star add-rating-default pl-0 mb-6"></span>
-                <form>
-                  <div class="form-check form-check-inline mb-6 mr-lg-7">
-                    <input
-                      class="form-check-input mr-2"
-                      type="radio"
-                      name="inlineRadioOptions"
-                      id="inlineRadio1"
-                      value="option1"
-                      checked
-                    />
-                    <label class="form-check-label" for="inlineRadio1">
-                      <div class="media media-xs align-items-center">
-                        <img
-                          src="assets/img/user/user-xs-3.jpg"
-                          class="mr-2 media-object rounded-circle"
-                          alt="Image User"
-                        />
-                        <div class="media-body">
-                          <h5 class="media-heading mb-0">William</h5>
-                        </div>
-                      </div>
-                    </label>
-                  </div>
-                  <div class="form-check form-check-inline mb-6">
-                    <input
-                      class="form-check-input mr-2"
-                      type="radio"
-                      name="inlineRadioOptions"
-                      id="inlineRadio2"
-                      value="option2"
-                    />
-                    <label class="form-check-label" for="inlineRadio2">
-                      <div class="media media-xs align-items-center">
-                        <img
-                          src="assets/img/user/avatar-01.png"
-                          class="mr-2 media-object rounded-circle border"
-                          alt="Image User"
-                        />
-                        <div class="media-body">
-                          <h5 class="media-heading mb-0">Anonymous</h5>
-                        </div>
-                      </div>
-                    </label>
-                  </div>
-                  <div class="form-group mb-6">
-                    <textarea
-                      class="form-control"
-                      rows="6"
-                      placeholder="Enter Your Comment"
-                    ></textarea>
-                  </div>
-                  <div class="form-group">
-                    <button
-                      type="submit"
-                      class="btn btn-primary text-uppercase"
-                    >
-                      Send Review
-                    </button>
-                  </div>
-                </form>
-              </div>
             </div>
 
             <!--======= Sidebar =======-->
@@ -385,41 +206,69 @@
                     class="d-flex justify-content-between mb-3 pb-3 border-bottom"
                   >
                     <span>Monday</span>
-                    <span>08.00am - 05.00pm</span>
+                    <span v-if="place.yelp_details.hours[0].open[0]">
+                      {{ place.yelp_details.hours[0].open[0].start }} -
+                      {{ place.yelp_details.hours[0].open[0].end }}</span
+                    >
+                    <span v-else>Closed</span>
                   </li>
                   <li
                     class="d-flex justify-content-between mb-3 pb-3 border-bottom"
                   >
                     <span>Tuesday</span>
-                    <span>08.00am - 05.00pm</span>
+                    <span v-if="place.yelp_details.hours[0].open[1]">
+                      {{ place.yelp_details.hours[0].open[1].start }} -
+                      {{ place.yelp_details.hours[0].open[1].end }}</span
+                    >
+                    <span v-else>Closed</span>
                   </li>
                   <li
                     class="d-flex justify-content-between mb-3 pb-3 border-bottom"
                   >
                     <span>Wednesday</span>
-                    <span>08.00am - 05.00pm</span>
+                    <span v-if="place.yelp_details.hours[0].open[2]">
+                      {{ place.yelp_details.hours[0].open[2].start }} -
+                      {{ place.yelp_details.hours[0].open[2].end }}</span
+                    >
+                    <span v-else>Closed</span>
                   </li>
                   <li
                     class="d-flex justify-content-between mb-3 pb-3 border-bottom"
                   >
                     <span>Thrusday</span>
-                    <span>08.00am - 05.00pm</span>
+                    <span v-if="place.yelp_details.hours[0].open[3]">
+                      {{ place.yelp_details.hours[0].open[3].start }} -
+                      {{ place.yelp_details.hours[0].open[3].end }}</span
+                    >
+                    <span v-else>Closed</span>
                   </li>
                   <li
                     class="d-flex justify-content-between mb-3 pb-3 border-bottom"
                   >
                     <span>Friday</span>
-                    <span>08.00am - 05.00pm</span>
+                    <span v-if="place.yelp_details.hours[0].open[4]">
+                      {{ place.yelp_details.hours[0].open[4].start }} -
+                      {{ place.yelp_details.hours[0].open[4].end }}</span
+                    >
+                    <span v-else>Closed</span>
                   </li>
                   <li
                     class="d-flex justify-content-between mb-3 pb-3 border-bottom"
                   >
                     <span>Saturday</span>
-                    <span><a href="#">Closed</a></span>
+                    <span v-if="place.yelp_details.hours[0].open[5]">
+                      {{ place.yelp_details.hours[0].open[5].start }} -
+                      {{ place.yelp_details.hours[0].open[5].end }}
+                    </span>
+                    <span v-else>Closed</span>
                   </li>
                   <li class="d-flex justify-content-between mb-3">
                     <span>Sunday</span>
-                    <span><a href="#">Closed</a></span>
+                    <span v-if="place.yelp_details.hours[0].open[6]">
+                      {{ place.yelp_details.hours[0].open[6].start }} -
+                      {{ place.yelp_details.hours[0].open[6].end }}
+                    </span>
+                    <span v-else>Closed</span>
                   </li>
                 </ul>
               </div>
@@ -430,56 +279,8 @@
     </div>
     <!-- element wrapper ends -->
 
-    <div v-if="place.yelp_details">
-      <h1>{{ place.name }}</h1>
-      <br />
-      <img
-        class="place_thumbnail"
-        :src="place.image_url"
-        alt="`place.name`"
-      /><br />
-      <span v-on:click="toggleFavorite(place)"
-        >Favorited: {{ place.is_favorite }}</span
-      ><br />
-      Category: {{ place.category }}<br />
-      Rating: {{ place.yelp_details.rating }} | Price:
-      {{ place.yelp_details.price }} | Phone:
-      {{ place.yelp_details.display_phone }}
-      <span v-if="place.yelp_details.hours"
-        >| Open now: {{ place.yelp_details.hours[0].is_open_now }}</span
-      ><br />
-      Address:
-      <div v-for="address_line in place.yelp_details.location.display_address">
-        {{ address_line }}
-      </div>
-      <br />
-      <a
-        target="_blank"
-        rel="noopener noreferrer"
-        :href="`${place.yelp_details.url}`"
-        >Yelp (insert required logo)</a
-      >
-      <br />
-      Yelp Categories:
-      <ul>
-        <li v-for="category in place.yelp_details.categories">
-          {{ category.title }}
-        </li>
-      </ul>
-      Photos:<br /><span v-for="photo in place.yelp_details.photos"
-        ><img class="place_thumbnail" :src="photo"/></span
-      ><br />
-      Reviews:
-      <p v-for="review in place.yelp_reviews.reviews">
-        Yelp User: {{ review.user.name }} | Rating: {{ review.rating }}<br />
-        {{ review.text }}
-        <a target="_blank" rel="noopener noreferrer" :href="`${review.url}`"
-          >Read more</a
-        >
-      </p>
-    </div>
     <!-- Map -->
-    <div id="map"></div>
+    <div class="showMap" id="map"></div>
   </div>
 </template>
 
@@ -492,10 +293,10 @@
   height: 200px;
 }
 
-#map {
-  /* width: 100%; */
+.showMap {
+  width: 100%;
   height: 438px;
-  /* margin-bottom: 30px; */
+  margin-bottom: 30px;
 }
 </style>
 
