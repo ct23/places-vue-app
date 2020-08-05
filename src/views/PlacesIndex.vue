@@ -2,8 +2,8 @@
   <div class="placesIndex">
     <div class="main-wrapper">
       <!-- ====================================
-———	LISTING HALF MAP GRID
-===================================== -->
+        ———	LISTING HALF MAP GRID
+        ===================================== -->
       <section class="main-contentiner map-half-content grid-two-items">
         <div class="container-fluid">
           <div class="row">
@@ -144,7 +144,10 @@
                               v-else
                               class="fa fa-heart text-primary"
                               aria-hidden="true"
-                            ></i>
+                            ></i
+                            >&ensp;
+                            <span v-if="!place.is_favorite">Save favorite</span>
+                            <span v-else>Favorite saved</span>
                           </button>
                         </li>
                       </ul>
@@ -159,7 +162,7 @@
     </div>
 
     <!-- Map -->
-    <!-- <div id="map"></div> -->
+    <div id="map"></div>
 
     <!-- User location input -->
     <div>
