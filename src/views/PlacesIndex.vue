@@ -111,8 +111,8 @@
                         :src="place.image_url"
                         :alt="place.name"
                       />
-                      <router-link :to="`/places/${place.id}`"
-                        ><div class="card-img-overlay">
+                      <router-link :to="`/places/${place.id}`">
+                        <div class="card-img-overlay">
                           <h3 class="listing-title">
                             <router-link :to="`/places/${place.id}`">
                               {{ place.name }}
@@ -121,8 +121,8 @@
                           <p class="text-white listing-address">
                             {{ place.category }}
                           </p>
-                        </div></router-link
-                      >
+                        </div>
+                      </router-link>
                     </div>
 
                     <div class="card-footer bg-transparent">
@@ -160,53 +160,6 @@
         </div>
       </section>
     </div>
-
-    <!-- Map -->
-    <div id="map"></div>
-
-    <!-- User location input -->
-    <div>
-      <form v-on:submit.prevent="geocode()">
-        <select name="cats" id="cats" v-model="selectedCat">
-          <option value="">All Categories</option>
-          <option v-for="category in categories">{{ category.name }}</option>
-        </select>
-        <select name="bars" id="bars" v-model="barsOnly">
-          <option value="">Bars and Restaurants</option>
-          <option value="true">Bars only</option>
-        </select>
-
-        <input type="text" placeholder="Address search" v-model="searchQuery" />
-        <input type="submit" class="btn btn-primary" value="Submit" />
-      </form>
-    </div>
-
-    <!-- Places list -->
-    <ol>
-      <!-- Orders by distance based on user input address, filters by category input, filters by bars only or all -->
-      <li
-        v-for="place in filterBy(
-          filterBy(places, barsOnly, 'bar'),
-          selectedCat,
-          'category'
-        )"
-      >
-        <router-link :to="`/places/${place.id}`"
-          ><h4>{{ place.name }}</h4></router-link
-        >
-        <span v-on:click="toggleFavorite(place)"
-          >Favorited: {{ place.is_favorite }}</span
-        ><br />
-        Bar: {{ place.bar }}<br />
-        Category: {{ place.category }}<br />
-        <router-link :to="`/places/${place.id}`"
-          ><img
-            class="place_thumbnail"
-            :src="place.image_url"
-            alt="`place.name`"
-        /></router-link>
-      </li>
-    </ol>
   </div>
 </template>
 
@@ -221,7 +174,7 @@
 } */
 .listing-img {
   background-position: cover;
-  height: 300px;
+  height: 275px;
 }
 </style>
 

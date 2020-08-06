@@ -23,7 +23,10 @@
                   {{ place.yelp_details.display_phone }}
                 </p>
                 <p
-                  v-if="place.yelp_details.hours[0].is_open_now"
+                  v-if="
+                    place.yelp_details.hours &&
+                      place.yelp_details.hours[0].is_open_now
+                  "
                   class="text-muted mb-1"
                 >
                   Open now
@@ -45,7 +48,7 @@
                         :src="
                           `/assets/img/yelp/yelp_stars/web_and_ios/small/small_${place.yelp_details.rating}.png`
                         "
-                        alt="yelp_stars"
+                        :alt="`${place.yelp_details.rating} stars`"
                       />
                     </li>
                   </ul>
@@ -144,8 +147,10 @@
                     <ul class="list-inline list-inline-rating">
                       <li class="list-inline-item">
                         <img
-                          src="/assets/img/yelp/yelp_stars/web_and_ios/small/small_1.png"
-                          alt="yelp_stars"
+                          :src="
+                            `/assets/img/yelp/yelp_stars/web_and_ios/small/small_${review.rating}.png`
+                          "
+                          :alt="`${review.rating} stars`"
                         />
                       </li>
                     </ul>
@@ -181,12 +186,14 @@
                         class="fa fa-map-marker mr-3 mt-1"
                         aria-hidden="true"
                       ></i>
-                      <span
-                        v-for="address_line in place.yelp_details.location
-                          .display_address"
-                        >{{ address_line }}</span
-                      >
                     </li>
+
+                    <span
+                      v-for="address_line in place.yelp_details.location
+                        .display_address"
+                    >
+                      {{ address_line }}<br />
+                    </span>
                   </ul>
                 </div>
               </div>
@@ -194,7 +201,7 @@
               <!-- Opening Hours -->
               <div class="border rounded px-6 py-5 mb-5">
                 <h3 class="mb-4 font-weight-normal">Opening Hours</h3>
-                <ul class="list-unstyled mb-0">
+                <ul v-if="place.yelp_details.hours" class="list-unstyled mb-0">
                   <li
                     class="d-flex justify-content-between mb-3 pb-3 border-bottom"
                   >
@@ -262,6 +269,12 @@
                       {{ place.yelp_details.hours[0].open[6].end }}
                     </span>
                     <span v-else>Closed</span>
+                  </li>
+                </ul>
+                <!-- If no hours specified -->
+                <ul v-else>
+                  <li class="d-flex justify-content-between mb-3">
+                    <span>Yelp does not have the hours for this business</span>
                   </li>
                 </ul>
               </div>
