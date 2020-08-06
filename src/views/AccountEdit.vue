@@ -19,6 +19,7 @@
                 id="nameProfile"
                 placeholder="Name"
                 v-model="user.name"
+                required
               />
             </div>
             <div class="form-group col-md-6 mb-6">
@@ -28,6 +29,7 @@
                 class="form-control"
                 placeholder="Email"
                 v-model="user.email"
+                required
               />
             </div>
             <div class="form-group col-md-6 mb-6">

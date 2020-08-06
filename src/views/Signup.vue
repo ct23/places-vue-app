@@ -27,7 +27,7 @@
                   <div class="form-group">
                     <label for="inputText">Name</label>
                     <input
-                      require
+                      required
                       v-model="name"
                       type="text"
                       class="form-control"
@@ -38,7 +38,7 @@
                   <div class="form-group">
                     <label for="inputText">Email</label>
                     <input
-                      require
+                      required
                       v-model="email"
                       type="email"
                       class="form-control"
@@ -50,7 +50,7 @@
                     <div class="form-group col-md-6 mb-4">
                       <label for="inputPassword">Password</label>
                       <input
-                        require
+                        required
                         type="password"
                         class="form-control"
                         id="inputPassword"
@@ -61,7 +61,7 @@
                     <div class="form-group col-md-6 mb-4">
                       <label for="inputPassword">Password (re-type)</label>
                       <input
-                        require
+                        required
                         type="password"
                         class="form-control"
                         id="inputPassword"

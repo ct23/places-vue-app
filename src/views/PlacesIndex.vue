@@ -56,7 +56,6 @@
                             v-model="searchQuery"
                             class="form-control"
                             placeholder="Location"
-                            required
                           />
                         </div>
                       </div>
