@@ -359,7 +359,7 @@ export default {
       this.places.forEach((place) => {
         if (!this.selectedCat || place.category === this.selectedCat) {
           var popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
-            `<router-link to="/places/${place.id}">${place.name}</router-link><br><a href="/places/${place.id}">${place.name}</router-link>`
+            `<a href="/places/${place.id}">${place.name}</router-link>`
           );
           var marker = new mapboxgl.Marker()
             .setLngLat([place.lon, place.lat])

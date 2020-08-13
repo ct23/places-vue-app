@@ -78,13 +78,13 @@
 <script>
 export default {
   /* global google */
-  data: function() {
+  data: function () {
     return {
       message: "Welcome to CBO!",
       userLocation: "",
     };
   },
-  created: function() {},
+  created: function () {},
   mounted() {
     this.autocomplete = new google.maps.places.Autocomplete(
       this.$refs.autocomplete,
@@ -98,11 +98,11 @@ export default {
     });
   },
   methods: {
-    search: function() {
+    search: function () {
       this.$parent.userLocation = this.userLocation;
       this.$router.push("/places");
     },
-    geolocate: function() {
+    geolocate: function () {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position) => {
           var geolocation = {
@@ -111,8 +111,25 @@ export default {
           };
           console.log(geolocation);
           this.userLocation = geolocation.lng + ", " + geolocation.lat;
+          // this.reverseGeocode(geolocation.lat, geolocation.lng);
+          // console.log("USER LOCATION: " + this.userLocation);
         });
       }
+    },
+    reverseGeocode: function (lat, lng) {
+      const geocoder = new google.maps.Geocoder();
+      geocoder.geocode({ location: { lat: lat, lng: lng } }, function (
+        results,
+        status
+      ) {
+        if (status === "OK") {
+          var formatted = results[0]["formatted_address"];
+          console.log(formatted);
+          this.userLocation = formatted;
+        } else {
+          window.alert("No results found");
+        }
+      });
     },
   },
 };

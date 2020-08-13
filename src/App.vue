@@ -1,16 +1,5 @@
 <template>
   <div id="app">
-    <!-- Old navbar: -->
-    <!-- <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link> |
-      <router-link to="/places">Places Index</router-link> |
-      <router-link to="/favorites">My Favorites</router-link> |
-      <router-link v-if="isLoggedIn()" to="/account">Account</router-link
-      ><span v-if="isLoggedIn()"> | </span>
-      <router-link v-if="!isLoggedIn()" to="/login">Log In</router-link>
-      <router-link v-if="isLoggedIn()" to="/logout">Log Out</router-link>
-    </div> -->
     <!-- OTHER -->
     <!-- <nav class="nav-menuzord navbar-sticky">
         <div class="container-fluid clearfix"> -->
@@ -140,17 +129,17 @@
                 <!---->
               </svg>
             </a>
-            <p class="text-white pt-1 pb-3">
+            <!-- <p class="text-white pt-1 pb-3">
               Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
               enim ad minim veniam, quis nostrud exercitation ullamco laboris
               nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-            </p>
+            </p> -->
             <ul class="list-unstyled text-white">
               <li class="mb-3">
                 <i class="fa fa-envelope mr-3" aria-hidden="true"></i>
-                <a class="text-white" href="mailto:info@listy.com"
-                  >info@listy.com</a
+                <a class="text-white" href="mailto:info@cboeats.com"
+                  >info@cboeats.com</a
                 >
               </li>
             </ul>
@@ -235,17 +224,17 @@
 
 <script>
 export default {
-  data: function() {
+  data: function () {
     return {
       userLocation: "",
     };
   },
   methods: {
     // Returns true or false depending on jwt in localstorage
-    isLoggedIn: function() {
+    isLoggedIn: function () {
       return localStorage.getItem("jwt");
     },
-    getUserId: function() {
+    getUserId: function () {
       return localStorage.getItem("user_id");
     },
   },
